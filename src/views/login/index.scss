@@ -2,3 +2,45 @@
     height: 100vh;
     background-color: #344a5f;
 }
+
+.login-wrap {
+    width: 330px;
+    margin: auto;
+    .menu-tab {
+        text-align: center;
+        li {
+            display: inline-block;
+            height: 36px;
+            line-height: 36px;
+            width: 88px;
+            font-size: 14px;
+            color: #fff;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .current {
+            background-color: rgba(0, 0, 0, .4);
+        }
+    }
+}
+
+.login-form {
+    margin-top: 29px;
+    label {
+        margin-bottom: 3px;
+        display: block;
+        font-size: 14px;
+        color: #fff;
+    }
+    .item-form {
+        margin-bottom: 13px;
+    }
+    .item-btn {
+        width: 100%;
+        display: block;
+    }
+}
+
+.mt-19 {
+    margin-top: 19px;
+}
