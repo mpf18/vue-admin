@@ -64,7 +64,6 @@
   </div>
 </template>
 <script>
-import { reactive, ref, isRef, toRefs, onMounted } from "@vue/composition-api";
 import {
   stripscript,
   validateEmail,
@@ -73,21 +72,11 @@ import {
 } from "@/utils/validate";
 export default {
   name: "login",
-  setup(props, { refs }) {
-    //这里面放data数据，生命周期，自定义函数
-    //reactive 遇到声明的数据是对象类型(直接取) ref遇到声明的数据是基础类型(取值的话需要加个value)
-    //isRef 判端是否是基础数据类型console.log(isRef(model) ? true :false)  toRefs将reactive转换为普通对象
-    /**
-     *  const obj = reactive({
-          x:0
-        })
-        const a = toRefs(obj);
-        console.log(a.x.value)
-     */
+  data() {
     //验证用户名
-    let validateUsername = (rule, value, callback) => {
-      ruleForm.username = stripscript(value);
-      value = ruleForm.username;
+    var validateUsername = (rule, value, callback) => {
+      this.ruleForm.username = stripscript(value);
+      value = this.ruleForm.username;
       if (value === "") {
         callback(new Error("请输入用户名"));
       } else if (validateEmail(value)) {
@@ -97,10 +86,10 @@ export default {
       }
     };
     //验证密码
-    let validatePassword = (rule, value, callback) => {
+    var validatePassword = (rule, value, callback) => {
       //过滤特殊字符
-      ruleForm.password = stripscript(value);
-      value = ruleForm.password;
+      this.ruleForm.password = stripscript(value);
+      value = this.ruleForm.password;
       if (value === "") {
         callback(new Error("请输入密码"));
       } else if (validatePass(value)) {
@@ -110,14 +99,14 @@ export default {
       }
     };
     //验证重复密码
-    let validateRepassword = (rule, value, callback) => {
+    var validateRepassword = (rule, value, callback) => {
       //如果model的值为：login,直接通过
-      if (model.value === "login") {
-        callback();
+      if(this.model === 'login'){
+          callback();
       }
       //过滤特殊字符
-      ruleForm.repassword = stripscript(value);
-      value = ruleForm.repassword;
+      this.ruleForm.repassword = stripscript(value);
+      value = this.ruleForm.repassword;
       if (value === "") {
         callback(new Error("请再次输入密码"));
       } else if (value != this.ruleForm.password) {
@@ -127,10 +116,10 @@ export default {
       }
     };
     //验证验证码
-    let validateCode = (rule, value, callback) => {
+    var validateCode = (rule, value, callback) => {
       //过滤特殊字符
-      ruleForm.code = stripscript(value);
-      value = ruleForm.code;
+      this.ruleForm.code = stripscript(value);
+      value = this.ruleForm.code;
       if (value == "") {
         return callback(new Error("请输入验证码"));
       } else if (validateVCode(value)) {
@@ -139,38 +128,36 @@ export default {
         callback();
       }
     };
-
-    //声明数据 表单绑定数据
-    const ruleForm = reactive({
-      username: "",
-      password: "",
-      repassword: "",
-      code: ""
-    });
-    //表单的验证
-    const rules = reactive({
-      username: [{ validator: validateUsername, trigger: "blur" }],
-      password: [{ validator: validatePassword, trigger: "blur" }],
-      repassword: [{ validator: validateRepassword, trigger: "blur" }],
-      code: [{ validator: validateCode, trigger: "blur" }]
-    });
-    const menuTab = reactive([
-      { text: "登录", current: true, type: "login" },
-      { text: "注册", current: false, type: "register" }
-    ]);
-    const model = ref("login");
-    /**
-     * 声明函数
-     */
-    const toggleMenu = data => {
-      menuTab.forEach(elem => {
+    return {
+      menuTab: [
+        { text: "登录", current: true, type: "login" },
+        { text: "注册", current: false, type: "register" }
+      ],
+      model: "login",
+      ruleForm: {
+        username: "",
+        password: "",
+        repassword: "",
+        code: ""
+      },
+      rules: {
+        username: [{ validator: validateUsername, trigger: "blur" }],
+        password: [{ validator: validatePassword, trigger: "blur" }],
+        repassword: [{ validator: validateRepassword, trigger: "blur" }],
+        code: [{ validator: validateCode, trigger: "blur" }]
+      }
+    };
+  },
+  methods: {
+    toggleMenu(data) {
+      this.menuTab.forEach(elem => {
         elem.current = false;
       });
       data.current = true;
-      model.value = data.type;
-    };
-    const submitForm = formName => {
-      refs[formName].validate(valid => {
+      this.model = data.type;
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           alert("submit!");
         } else {
@@ -178,20 +165,7 @@ export default {
           return false;
         }
       });
-    };
-    /**
-     * 生命周期
-     */
-    //挂载完成后
-    onMounted(() => {});
-    return {
-      menuTab,
-      model,
-      ruleForm,
-      rules,
-      toggleMenu,
-      submitForm
-    };
+    }
   }
 };
 </script>
