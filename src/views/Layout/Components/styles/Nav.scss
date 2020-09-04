@@ -1,0 +1,16 @@
+#nav-wrap {
+    width: $navMenu;
+    height: 100vh;
+    background-color: #344a5f;
+    position: fixed;
+    top: 0;
+    left: 0;
+    svg {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+}
+
+.el-menu {
+    border-right: none;
+}

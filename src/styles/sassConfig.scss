@@ -1,0 +1,13 @@
+@mixin webkit($type, $value) {
+    -webkit-#{$type}: $value;
+    -moz-#{$type}: $value;
+    -ms-#{$type}: $value;
+    -o-#{$type}: $value;
+    #{$type}: $value;
+}
+
+//后台框架尺寸
+//菜单宽度
+$navMenu:250px;
+//主色调
+$mainColor:#f56c6c;

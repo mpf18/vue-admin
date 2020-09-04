@@ -4,6 +4,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+//引入自定义的全局组件
+import './icons/index.js';
+
 
 //引入element ui 
 import ElementUI from 'element-ui';
